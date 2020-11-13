@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  microservices:
+    container_name: microservices
+    build: 
+      context: .
+      dockerfile: build/docker/microservices/Dockerfile.development
+    ports: 
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: .
+        target: /go/src/app
+    working_dir: /go/src/app
