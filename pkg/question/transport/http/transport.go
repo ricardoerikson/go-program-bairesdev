@@ -43,6 +43,17 @@ func DecodeUpdateQuestionRequest(c context.Context, r *http.Request) (interface{
 	}
 	var updateRequest endpoint.UpdateQuestionRequest
 	json.NewDecoder(r.Body).Decode(&updateRequest)
+	updateRequest.QuestionID = questionID
+	return updateRequest, nil
+}
+
+func DecodeUpdateAnswerRequest(c context.Context, r *http.Request) (interface{}, error) {
+	questionID, err := strconv.Atoi(mux.Vars(r)["questionID"])
+	if err != nil {
+		return nil, err
+	}
+	var updateRequest endpoint.UpdateAnswerRequest
+	json.NewDecoder(r.Body).Decode(&updateRequest)
 	updateRequest.ID = questionID
 	return updateRequest, nil
 }
@@ -74,6 +85,12 @@ func ConfigureRoutes(e endpoint.Endpoints) http.Handler {
 		kithttp.NewServer(
 			e.GetAllByUserIDEndpoint,
 			DecodeGetAllQuestionsByUserIDRequest,
+			EncodeResponse))
+
+	r.Methods("PUT").Path("/questions/{questionID}/answers").Handler(
+		kithttp.NewServer(
+			e.UpdateAnswerEndpoint,
+			DecodeUpdateAnswerRequest,
 			EncodeResponse))
 
 	r.Methods("PUT").Path("/questions/{questionID}").Handler(

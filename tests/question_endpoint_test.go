@@ -39,7 +39,7 @@ func (suite *QuestionTestSuite) SetupTest() {
 }
 
 func (suite *QuestionTestSuite) TestAddQuestion() {
-	actual := entity.Question{ID: 1, UserID: 1, Question: "What is 2 + 2?"}
+	actual := entity.Question{ID: 1, UserID: 1, Statement: "What is 2 + 2?"}
 	body, _ := json.Marshal(actual)
 	req := httptest.NewRequest("POST", "/questions", bytes.NewBuffer(body))
 	rr := httptest.NewRecorder()
