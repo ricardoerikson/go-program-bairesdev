@@ -18,8 +18,19 @@ func (r *QuestionRepositoryImpl) Init() {
 }
 
 func (r *QuestionRepositoryImpl) Add(c context.Context, q entity.Question) (*entity.Question, error) {
+	q.Answer = ""
 	r.database = append(r.database, q)
 	return &q, nil
+}
+
+func (r *QuestionRepositoryImpl) UpdateAnswer(c context.Context, ID int, answer string) (*entity.Question, error) {
+	for i, question := range r.database {
+		if question.ID == ID {
+			r.database[i].Answer = answer
+			return &r.database[i], nil
+		}
+	}
+	return nil, errors.Newf(`question ID: "%d" not found`, ID)
 }
 
 func (r *QuestionRepositoryImpl) GetAll(c context.Context) ([]entity.Question, error) {

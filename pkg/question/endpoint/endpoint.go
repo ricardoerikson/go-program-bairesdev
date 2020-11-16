@@ -12,6 +12,7 @@ type Endpoints struct {
 	GetAllEndpoint         endpoint.Endpoint
 	GetAllByUserIDEndpoint endpoint.Endpoint
 	UpdateEndpoint         endpoint.Endpoint
+	UpdateAnswerEndpoint   endpoint.Endpoint
 	DeleteEndpoint         endpoint.Endpoint
 }
 
@@ -55,6 +56,17 @@ func makeUpdateQuestionEndpoint(service service.QuestionService) endpoint.Endpoi
 	}
 }
 
+func makeUpdateAnswerEndpoint(service service.QuestionService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(UpdateAnswerRequest)
+		question, err := service.UpdateAnswer(ctx, req.ID, req.Answer)
+		if err != nil {
+			return nil, err
+		}
+		return question, nil
+	}
+}
+
 func makeDeleteQuestionEndpoint(service service.QuestionService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(DeleteQuestionRequest)
@@ -72,6 +84,7 @@ func MakeEndpoints(s service.QuestionService) Endpoints {
 		GetAllEndpoint:         makeGetAllEndpoint(s),
 		GetAllByUserIDEndpoint: makeGetAllQuestionsByUserIDEndpoint(s),
 		UpdateEndpoint:         makeUpdateQuestionEndpoint(s),
+		UpdateAnswerEndpoint:   makeUpdateAnswerEndpoint(s),
 		DeleteEndpoint:         makeDeleteQuestionEndpoint(s),
 	}
 }
