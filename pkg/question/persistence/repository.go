@@ -12,7 +12,7 @@ type QuestionRepository interface {
 	GetAll(c context.Context) ([]entity.Question, error)
 	GetByID(c context.Context, ID int) (*entity.Question, error)
 	GetAllByUserID(c context.Context, userID int) ([]entity.Question, error)
-	Update(c context.Context, ID int, q entity.Question) error
+	Update(c context.Context, ID int, statement string) (*entity.Question, error)
 	UpdateAnswer(c context.Context, ID int, answer string) (*entity.Question, error)
 	Delete(c context.Context, ID int) error
 }

@@ -20,7 +20,8 @@ type GetAllQuestionsByUserIDRequest struct {
 }
 
 type UpdateQuestionRequest struct {
-	entity.Question
+	QuestionID int    `json:"id"`
+	Statement  string `json:"statement,omitempty"`
 }
 
 type UpdateAnswerRequest struct {

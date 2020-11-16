@@ -43,7 +43,7 @@ func DecodeUpdateQuestionRequest(c context.Context, r *http.Request) (interface{
 	}
 	var updateRequest endpoint.UpdateQuestionRequest
 	json.NewDecoder(r.Body).Decode(&updateRequest)
-	updateRequest.ID = questionID
+	updateRequest.QuestionID = questionID
 	return updateRequest, nil
 }
 

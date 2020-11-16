@@ -48,11 +48,11 @@ func makeGetAllQuestionsByUserIDEndpoint(service service.QuestionService) endpoi
 func makeUpdateQuestionEndpoint(service service.QuestionService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(UpdateQuestionRequest)
-		err := service.Update(ctx, req.ID, req.Question)
+		question, err := service.Update(ctx, req.QuestionID, req.Statement)
 		if err != nil {
 			return nil, err
 		}
-		return req.Question, nil
+		return question, nil
 	}
 }
 

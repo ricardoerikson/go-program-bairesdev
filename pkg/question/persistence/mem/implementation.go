@@ -57,14 +57,14 @@ func (r *QuestionRepositoryImpl) GetAllByUserID(c context.Context, userID int) (
 
 }
 
-func (r *QuestionRepositoryImpl) Update(c context.Context, ID int, q entity.Question) error {
+func (r *QuestionRepositoryImpl) Update(c context.Context, ID int, statement string) (*entity.Question, error) {
 	for i, question := range r.database {
 		if question.ID == ID {
-			r.database[i] = q
-			return nil
+			r.database[i].Statement = statement
+			return &r.database[i], nil
 		}
 	}
-	return errors.Newf("Question with ID: %s does not exist", ID)
+	return nil, errors.Newf("Question with ID: %s does not exist", ID)
 }
 
 func (r *QuestionRepositoryImpl) Delete(c context.Context, ID int) error {
