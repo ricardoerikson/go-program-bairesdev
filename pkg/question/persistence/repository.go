@@ -7,6 +7,7 @@ import (
 )
 
 type QuestionRepository interface {
+	Init()
 	Add(c context.Context, q entity.Question) (*entity.Question, error)
 	GetAll(c context.Context) ([]entity.Question, error)
 	GetByID(c context.Context, ID int) (*entity.Question, error)
