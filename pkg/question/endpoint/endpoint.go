@@ -21,7 +21,7 @@ func makeAddEndpoint(service service.QuestionService) endpoint.Endpoint {
 		req := request.(AddQuestionRequest)
 		question, err := service.Add(ctx, req.Question)
 		if err != nil {
-			return ErrorResponse{Err: err.Error()}, err
+			return ErrorResponse{Err: err.Error()}, nil
 		}
 		return question, nil
 	}
@@ -39,7 +39,7 @@ func makeGetAllQuestionsByUserIDEndpoint(service service.QuestionService) endpoi
 		req := request.(GetAllQuestionsByUserIDRequest)
 		all, err := service.GetByUserID(ctx, req.ID)
 		if err != nil {
-			return ErrorResponse{Err: err.Error()}, err
+			return ErrorResponse{Err: err.Error()}, nil
 		}
 		return all, nil
 	}

@@ -15,8 +15,8 @@ func (m *QuestionRepositoryMockImpl) Init() {
 
 }
 
-func (m *QuestionRepositoryMockImpl) Add(_ context.Context, q entity.Question) (*entity.Question, error) {
-	args := m.Called(nil, q)
+func (m *QuestionRepositoryMockImpl) Add(c context.Context, q entity.Question) (*entity.Question, error) {
+	args := m.Called(c, q)
 	return args.Get(0).(*entity.Question), args.Error(1)
 }
 
@@ -33,6 +33,11 @@ func (m *QuestionRepositoryMockImpl) GetByID(_ context.Context, ID int) (*entity
 func (m *QuestionRepositoryMockImpl) GetAllByUserID(_ context.Context, userID int) ([]entity.Question, error) {
 	args := m.Called(nil, userID)
 	return args.Get(0).([]entity.Question), args.Error(1)
+}
+
+func (m *QuestionRepositoryMockImpl) UpdateAnswer(_ context.Context, ID int, answer string) (*entity.Question, error) {
+	args := m.Called(nil, ID, answer)
+	return args.Get(0).(*entity.Question), args.Error(1)
 }
 
 func (m *QuestionRepositoryMockImpl) Update(_ context.Context, ID int, statement string) (*entity.Question, error) {

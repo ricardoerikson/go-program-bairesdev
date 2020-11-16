@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	tfymock "github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 	"questionsandanswers.com/pkg/question/endpoint"
 	"questionsandanswers.com/pkg/question/entity"
@@ -44,7 +45,7 @@ func (suite *QuestionTestSuite) TestAddQuestion() {
 	req := httptest.NewRequest("POST", "/questions", bytes.NewBuffer(body))
 	rr := httptest.NewRecorder()
 
-	suite.mock.On("Add", nil, actual).Return(&actual, nil)
+	suite.mock.On("Add", tfymock.Anything, actual).Return(&actual, nil)
 
 	suite.handler.ServeHTTP(rr, req)
 

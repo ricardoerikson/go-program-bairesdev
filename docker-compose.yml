@@ -6,6 +6,8 @@ services:
     build: 
       context: .
       dockerfile: build/docker/microservices/Dockerfile.development
+    env_file:
+      - microservices.env
     ports: 
       - "8080:8080"
     volumes:
@@ -13,3 +15,18 @@ services:
         source: .
         target: /go/src/app
     working_dir: /go/src/app
+    
+  database:
+    container_name: database-pg
+    image: "postgres:13-alpine"
+    restart: "always"
+    ports:
+      - "5432:5432"
+      # - "15432:5432"
+    env_file:
+      - database.env
+    volumes: 
+      - data-pg:/var/lib/postgresql/data/
+
+volumes:
+  data-pg: {}
