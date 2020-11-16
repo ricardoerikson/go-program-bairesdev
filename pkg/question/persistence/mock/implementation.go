@@ -35,9 +35,9 @@ func (m *QuestionRepositoryMockImpl) GetAllByUserID(_ context.Context, userID in
 	return args.Get(0).([]entity.Question), args.Error(1)
 }
 
-func (m *QuestionRepositoryMockImpl) Update(_ context.Context, ID int, q entity.Question) error {
-	args := m.Called(nil, ID, q)
-	return args.Error(0)
+func (m *QuestionRepositoryMockImpl) Update(_ context.Context, ID int, statement string) (*entity.Question, error) {
+	args := m.Called(nil, ID, statement)
+	return args.Get(0).(*entity.Question), args.Error(1)
 }
 
 func (m *QuestionRepositoryMockImpl) Delete(_ context.Context, ID int) error {
