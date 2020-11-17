@@ -22,6 +22,7 @@ func main() {
 	service := pg.NewService(db)
 	endpoints := endpoint.NewEndpoints(service)
 	handler := transport.NewHTTPTransport(endpoints)
+	handler = transport.ContentTypeMiddleware(handler)
 	err := http.ListenAndServe(":8080", handler)
 	if err != nil {
 		log.Fatal(err.Error())
