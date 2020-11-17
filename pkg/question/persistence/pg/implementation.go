@@ -30,6 +30,9 @@ func (r *QuestionRepositoryPgImpl) GetAll(c context.Context) ([]entity.Question,
 	if err != nil {
 		return nil, err
 	}
+	if len(questions) == 0 {
+		return make([]entity.Question, 0), nil
+	}
 	return questions, nil
 }
 
@@ -47,6 +50,9 @@ func (r *QuestionRepositoryPgImpl) GetAllByUserID(c context.Context, userID int)
 	err := r.DB.Model(&questions).Where("user_id = ?", userID).Select()
 	if err != nil {
 		return nil, err
+	}
+	if len(questions) == 0 {
+		return make([]entity.Question, 0), nil
 	}
 	return questions, nil
 }
