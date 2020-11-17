@@ -74,5 +74,5 @@ func (r *QuestionRepositoryMemImpl) Delete(c context.Context, ID int) error {
 			return nil
 		}
 	}
-	return errors.New("Question not found")
+	return errors.Newf("Question ID: %d not found", ID)
 }
