@@ -19,6 +19,10 @@ type GetAllQuestionsByUserIDRequest struct {
 	ID int `json:"user_id"`
 }
 
+type GetOneQuestionsByIDRequest struct {
+	ID int `json:"question_id"`
+}
+
 type UpdateQuestionRequest struct {
 	QuestionID int    `json:"id"`
 	Statement  string `json:"statement,omitempty"`
