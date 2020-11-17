@@ -78,7 +78,7 @@ func makeDeleteQuestionEndpoint(service service.QuestionService) endpoint.Endpoi
 	}
 }
 
-func MakeEndpoints(s service.QuestionService) Endpoints {
+func NewEndpoints(s service.QuestionService) Endpoints {
 	return Endpoints{
 		AddEndpoint:            makeAddEndpoint(s),
 		GetAllEndpoint:         makeGetAllEndpoint(s),

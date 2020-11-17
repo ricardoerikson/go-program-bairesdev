@@ -25,8 +25,8 @@ type QuestionTestSuite struct {
 
 func (suite *QuestionTestSuite) SetupSuite() {
 	suite.mockService = mock.NewService()
-	endpoints := endpoint.MakeEndpoints(suite.mockService)
-	suite.handler = qhttp.ConfigureRoutes(endpoints)
+	endpoints := endpoint.NewEndpoints(suite.mockService)
+	suite.handler = qhttp.NewHTTPTransport(endpoints)
 }
 
 func (suite *QuestionTestSuite) SetupTest() {

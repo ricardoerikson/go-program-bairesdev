@@ -66,7 +66,7 @@ func DecodeDeleteQuestionRequest(c context.Context, r *http.Request) (interface{
 	return endpoint.DeleteQuestionRequest{ID: questionID}, nil
 }
 
-func ConfigureRoutes(e endpoint.Endpoints) http.Handler {
+func NewHTTPTransport(e endpoint.Endpoints) http.Handler {
 	var r = mux.NewRouter()
 
 	r.Methods("POST").Path("/questions").Handler(
