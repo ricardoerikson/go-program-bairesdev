@@ -7,7 +7,7 @@ import (
 	gopg "github.com/go-pg/pg/v10"
 	"github.com/go-pg/pg/v10/orm"
 	"questionsandanswers.com/pkg/question/entity"
-	"questionsandanswers.com/pkg/question/persistence/pg"
+	"questionsandanswers.com/pkg/question/service/pg"
 )
 
 func createSchema(db *gopg.DB) error {
