@@ -37,7 +37,7 @@ func makeGetAllEndpoint(service service.QuestionService) endpoint.Endpoint {
 func makeGetAllQuestionsByUserIDEndpoint(service service.QuestionService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(GetAllQuestionsByUserIDRequest)
-		all, err := service.GetByUserID(ctx, req.ID)
+		all, err := service.GetAllByUserID(ctx, req.ID)
 		if err != nil {
 			return ErrorResponse{Err: err.Error()}, nil
 		}

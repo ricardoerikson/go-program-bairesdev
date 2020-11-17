@@ -9,21 +9,21 @@ import (
 
 type QuestionsDatabase []entity.Question
 
-type QuestionRepositoryImpl struct {
+type QuestionServiceMemImpl struct {
 	database QuestionsDatabase
 }
 
-func (r *QuestionRepositoryImpl) Init() {
-	r.database = make(QuestionsDatabase, 0)
+func NewService() *QuestionServiceMemImpl {
+	return &QuestionServiceMemImpl{database: make(QuestionsDatabase, 0)}
 }
 
-func (r *QuestionRepositoryImpl) Add(c context.Context, q entity.Question) (*entity.Question, error) {
+func (r *QuestionServiceMemImpl) Add(c context.Context, q entity.Question) (*entity.Question, error) {
 	q.Answer = ""
 	r.database = append(r.database, q)
 	return &q, nil
 }
 
-func (r *QuestionRepositoryImpl) UpdateAnswer(c context.Context, ID int, answer string) (*entity.Question, error) {
+func (r *QuestionServiceMemImpl) UpdateAnswer(c context.Context, ID int, answer string) (*entity.Question, error) {
 	for i, question := range r.database {
 		if question.ID == ID {
 			r.database[i].Answer = answer
@@ -33,11 +33,11 @@ func (r *QuestionRepositoryImpl) UpdateAnswer(c context.Context, ID int, answer 
 	return nil, errors.Newf(`question ID: "%d" not found`, ID)
 }
 
-func (r *QuestionRepositoryImpl) GetAll(c context.Context) ([]entity.Question, error) {
+func (r *QuestionServiceMemImpl) GetAll(c context.Context) ([]entity.Question, error) {
 	return r.database, nil
 }
 
-func (r *QuestionRepositoryImpl) GetByID(c context.Context, ID int) (*entity.Question, error) {
+func (r *QuestionServiceMemImpl) GetByID(c context.Context, ID int) (*entity.Question, error) {
 	for _, question := range r.database {
 		if question.ID == ID {
 			return &question, nil
@@ -46,7 +46,7 @@ func (r *QuestionRepositoryImpl) GetByID(c context.Context, ID int) (*entity.Que
 	return nil, errors.New("Question not found")
 }
 
-func (r *QuestionRepositoryImpl) GetAllByUserID(c context.Context, userID int) ([]entity.Question, error) {
+func (r *QuestionServiceMemImpl) GetAllByUserID(c context.Context, userID int) ([]entity.Question, error) {
 	questions := make([]entity.Question, 0)
 	for _, question := range r.database {
 		if question.UserID == userID {
@@ -57,7 +57,7 @@ func (r *QuestionRepositoryImpl) GetAllByUserID(c context.Context, userID int) (
 
 }
 
-func (r *QuestionRepositoryImpl) Update(c context.Context, ID int, statement string) (*entity.Question, error) {
+func (r *QuestionServiceMemImpl) Update(c context.Context, ID int, statement string) (*entity.Question, error) {
 	for i, question := range r.database {
 		if question.ID == ID {
 			r.database[i].Statement = statement
@@ -67,7 +67,7 @@ func (r *QuestionRepositoryImpl) Update(c context.Context, ID int, statement str
 	return nil, errors.Newf("Question with ID: %s does not exist", ID)
 }
 
-func (r *QuestionRepositoryImpl) Delete(c context.Context, ID int) error {
+func (r *QuestionServiceMemImpl) Delete(c context.Context, ID int) error {
 	for i, question := range r.database {
 		if question.ID == ID {
 			r.database = append(r.database[:i], r.database[i+1:]...)
