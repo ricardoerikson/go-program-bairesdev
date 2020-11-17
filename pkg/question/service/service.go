@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"questionsandanswers.com/pkg/question/entity"
 	"questionsandanswers.com/pkg/question/persistence"
@@ -31,6 +32,10 @@ func (impl *QuestionServiceImpl) Add(c context.Context, q entity.Question) (*ent
 	if len(q.Statement) == 0 {
 		return nil, errors.New("Empty statement is not allowed")
 	}
+	if q.UserID <= 0 {
+		return nil, errors.New(fmt.Sprintf("Invalid user ID: %v", q.UserID))
+	}
+	q.ID = 0
 	return impl.Repository.Add(c, q)
 }
 
