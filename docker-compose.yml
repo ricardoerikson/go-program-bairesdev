@@ -22,7 +22,6 @@ services:
     build:
       context: .
       dockerfile: build/docker/database/Dockerfile.development
-    image: "postgres:13-alpine"
     restart: "always"
     ports:
       - "5432:5432"
