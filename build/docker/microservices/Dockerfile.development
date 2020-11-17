@@ -19,7 +19,4 @@ COPY . .
 RUN go mod download
 RUN go mod vendor
 
-
-RUN go run cmd/dbinit/main.go
-
 CMD ["air", "-c", ".air.toml"]
