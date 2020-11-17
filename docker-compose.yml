@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  microservices:
+    container_name: microservices
+    build: 
+      context: .
+      dockerfile: build/docker/microservices/Dockerfile.development
+    env_file:
+      - microservices.env
+    ports: 
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: .
+        target: /go/src/app
+    working_dir: /go/src/app
+    depends_on:
+      - database
+  database:
+    container_name: database-pg
+    build:
+      context: .
+      dockerfile: build/docker/database/Dockerfile.development
+    restart: "always"
+    ports:
+      - "5432:5432"
+      # - "15432:5432"
+    env_file:
+      - database.env
+    volumes: 
+      - data-pg:/var/lib/postgresql/data/
+
+volumes:
+  data-pg: {}
