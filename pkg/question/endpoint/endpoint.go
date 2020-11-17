@@ -10,6 +10,7 @@ import (
 type Endpoints struct {
 	AddEndpoint            endpoint.Endpoint
 	GetAllEndpoint         endpoint.Endpoint
+	GetOneByIDEndpoint     endpoint.Endpoint
 	GetAllByUserIDEndpoint endpoint.Endpoint
 	UpdateEndpoint         endpoint.Endpoint
 	UpdateAnswerEndpoint   endpoint.Endpoint
@@ -31,6 +32,14 @@ func makeGetAllEndpoint(service service.QuestionService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		all, _ := service.GetAll(ctx)
 		return all, nil
+	}
+}
+
+func makeGetOneByIDEndpoint(service service.QuestionService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(GetOneQuestionsByIDRequest)
+		one, _ := service.GetByID(ctx, req.ID)
+		return one, nil
 	}
 }
 
@@ -82,6 +91,7 @@ func NewEndpoints(s service.QuestionService) Endpoints {
 	return Endpoints{
 		AddEndpoint:            makeAddEndpoint(s),
 		GetAllEndpoint:         makeGetAllEndpoint(s),
+		GetOneByIDEndpoint:     makeGetOneByIDEndpoint(s),
 		GetAllByUserIDEndpoint: makeGetAllQuestionsByUserIDEndpoint(s),
 		UpdateEndpoint:         makeUpdateQuestionEndpoint(s),
 		UpdateAnswerEndpoint:   makeUpdateAnswerEndpoint(s),

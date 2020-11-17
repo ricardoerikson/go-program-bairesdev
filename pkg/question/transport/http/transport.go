@@ -36,6 +36,15 @@ func DecodeGetAllQuestionsByUserIDRequest(c context.Context, r *http.Request) (i
 	return endpoint.GetAllQuestionsByUserIDRequest{ID: userID}, nil
 }
 
+func DecodeGetOneQuestionByIDRequest(c context.Context, r *http.Request) (interface{}, error) {
+	questionID, err := strconv.Atoi(mux.Vars(r)["questionID"])
+	if err != nil {
+		return nil, err
+	}
+
+	return endpoint.GetOneQuestionsByIDRequest{ID: questionID}, nil
+}
+
 func DecodeUpdateQuestionRequest(c context.Context, r *http.Request) (interface{}, error) {
 	questionID, err := strconv.Atoi(mux.Vars(r)["questionID"])
 	if err != nil {
@@ -79,6 +88,12 @@ func NewHTTPTransport(e endpoint.Endpoints) http.Handler {
 		kithttp.NewServer(
 			e.GetAllEndpoint,
 			DecodeGetAllQuestionsRequest,
+			EncodeResponse))
+
+	r.Methods("GET").Path("/questions/{questionID}").Handler(
+		kithttp.NewServer(
+			e.GetOneByIDEndpoint,
+			DecodeGetOneQuestionByIDRequest,
 			EncodeResponse))
 
 	r.Methods("GET").Path("/users/{userID}/questions").Handler(

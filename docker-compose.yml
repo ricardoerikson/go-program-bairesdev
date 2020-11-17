@@ -19,6 +19,9 @@ services:
       - database
   database:
     container_name: database-pg
+    build:
+      context: .
+      dockerfile: build/docker/database/Dockerfile.development
     image: "postgres:13-alpine"
     restart: "always"
     ports:
