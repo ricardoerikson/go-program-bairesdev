@@ -15,7 +15,8 @@ services:
         source: .
         target: /go/src/app
     working_dir: /go/src/app
-    
+    depends_on:
+      - database
   database:
     container_name: database-pg
     image: "postgres:13-alpine"
