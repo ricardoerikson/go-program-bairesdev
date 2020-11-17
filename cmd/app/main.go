@@ -6,7 +6,8 @@ import (
 	"os"
 
 	"questionsandanswers.com/pkg/question/endpoint"
-	"questionsandanswers.com/pkg/question/service/pg"
+	"questionsandanswers.com/pkg/question/persistence/pg"
+	"questionsandanswers.com/pkg/question/service"
 	transport "questionsandanswers.com/pkg/question/transport/http"
 )
 
@@ -19,7 +20,8 @@ func main() {
 	db := pg.Connection(addr, user, password, dbName)
 	defer db.Close()
 
-	service := pg.NewService(db)
+	repository := new(pg.QuestionRepositoryPgImpl).NewRepository(db)
+	service := new(service.QuestionServiceImpl).NewService(repository)
 	endpoints := endpoint.NewEndpoints(service)
 	handler := transport.NewHTTPTransport(endpoints)
 	handler = transport.ContentTypeMiddleware(handler)

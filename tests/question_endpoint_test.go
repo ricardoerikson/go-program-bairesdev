@@ -13,19 +13,23 @@ import (
 	"github.com/stretchr/testify/suite"
 	"questionsandanswers.com/pkg/question/endpoint"
 	"questionsandanswers.com/pkg/question/entity"
-	"questionsandanswers.com/pkg/question/service/mock"
+	"questionsandanswers.com/pkg/question/persistence/mock"
+	"questionsandanswers.com/pkg/question/service"
 	qhttp "questionsandanswers.com/pkg/question/transport/http"
 )
 
 type QuestionTestSuite struct {
 	suite.Suite
-	mockService *mock.QuestionServiceMockImpl
-	handler     http.Handler
+	service service.QuestionService
+	mock    *mock.QuestionRepositoryMockImpl
+	handler http.Handler
 }
 
 func (suite *QuestionTestSuite) SetupSuite() {
-	suite.mockService = mock.NewService()
-	endpoints := endpoint.NewEndpoints(suite.mockService)
+	mockRepo := mock.QuestionRepositoryMockImpl{}
+	suite.mock = &mockRepo
+	suite.service = new(service.QuestionServiceImpl).NewService(&mockRepo)
+	endpoints := endpoint.NewEndpoints(suite.service)
 	suite.handler = qhttp.NewHTTPTransport(endpoints)
 }
 
@@ -39,7 +43,7 @@ func (suite *QuestionTestSuite) TestAddQuestion() {
 	req := httptest.NewRequest("POST", "/questions", bytes.NewBuffer(body))
 	rr := httptest.NewRecorder()
 
-	suite.mockService.On("Add", tfymock.Anything, actual).Return(&actual, nil)
+	suite.mock.On("Add", tfymock.Anything, actual).Return(&actual, nil)
 
 	suite.handler.ServeHTTP(rr, req)
 
@@ -53,7 +57,7 @@ func (suite *QuestionTestSuite) TestAddQuestion() {
 
 	// Assertions
 	assert := assert.New(suite.T())
-	suite.mockService.AssertExpectations(suite.T())
+	suite.mock.AssertExpectations(suite.T())
 	assert.Equal(rr.Code, http.StatusOK)
 	assert.Equal(actual, expected)
 }
