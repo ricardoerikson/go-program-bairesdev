@@ -27,10 +27,10 @@ The project was developed using the following stack:
   - [gorilla/mux](https://github.com/gorilla/mux)
   - ORM ([go-pg/pg](https://github.com/go-pg/pg)) - Golang Object Relational Mapping framework for PostgreSQL
 
-The project uses the `go-kit` design architecture with the following layers: transport, endpoint and service. In addition, the project uses a persistence layer, which is losely coupled from the service layer. All the business logic goes in the service layer. The persistence layer is only concerned about storing and retrieving objects. The concrete implementation of the persistence layer can be replaced without affecting the existing code in the other layers. The persistence layer of this project contains three concrete implementaions: 
+The project uses the `go-kit` design architecture with the following layers: transport, endpoint, and service. In addition, the project uses a persistence layer, which is loosely coupled from the service layer. All the business logic goes in the service layer. The persistence layer is only concerned about storing and retrieving objects. The concrete implementation of the persistence layer can be replaced without affecting the existing code in the other layers. The persistence layer of this project contains three concrete implementations: 
 
   - An in-memory database (`mem`) implementation
-  - A mock implementaion (`mock`), which mocks the calls to the persistence layer
+  - A mock implementation (`mock`), which mocks the calls to the persistence layer
   - A PostgreSQL implementation (`pg`) using ORM
 
 ## Install
